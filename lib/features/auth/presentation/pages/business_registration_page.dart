@@ -101,53 +101,56 @@ class _BusinessRegistrationPageState extends State<BusinessRegistrationPage> {
         title: const Text('Register Your Business'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: Stepper(
-            type: StepperType.horizontal,
-            currentStep: _currentStep,
-            onStepContinue: _nextStep,
-            onStepCancel: _previousStep,
-            elevation: 0,
-            controlsBuilder: (context, controls) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 32),
-                child: Row(
-                  children: [
-                    if (_currentStep > 0)
+      body: Form(
+        key: _formKey,
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: Stepper(
+              type: StepperType.horizontal,
+              currentStep: _currentStep,
+              onStepContinue: _nextStep,
+              onStepCancel: _previousStep,
+              elevation: 0,
+              controlsBuilder: (context, controls) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: Row(
+                    children: [
+                      if (_currentStep > 0)
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: controls.onStepCancel,
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: const Text('Back'),
+                          ),
+                        ),
+                      if (_currentStep > 0) const SizedBox(width: 16),
                       Expanded(
-                        child: OutlinedButton(
-                          onPressed: controls.onStepCancel,
-                          style: OutlinedButton.styleFrom(
+                        child: ElevatedButton(
+                          onPressed: controls.onStepContinue,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF2563EB),
+                            foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           ),
-                          child: const Text('Back'),
+                          child: Text(_currentStep == 2 ? 'Create Account' : 'Next Step'),
                         ),
                       ),
-                    if (_currentStep > 0) const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: controls.onStepContinue,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF2563EB),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        ),
-                        child: Text(_currentStep == 2 ? 'Create Account' : 'Next Step'),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            steps: [
-              _buildStep1(),
-              _buildStep2(),
-              _buildStep3(),
-            ],
+                    ],
+                  ),
+                );
+              },
+              steps: [
+                _buildStep1(),
+                _buildStep2(),
+                _buildStep3(),
+              ],
+            ),
           ),
         ),
       ),
